@@ -1,0 +1,52 @@
+Basic High Level Diagram
+
+                 ||                      ||  ||  ||                                        ______  Controller1
+                 ||                      ||  ||  ||                                       |
+ Client -------- ||  ------------------- ||  ||  || ---- Dispatcher Servlet(Servlet) ------
+                 ||                      ||  ||  ||                                       |
+                 ||                      ||  ||  ||                                       |______  Controller2
+            Delegating Filter Proxy     Filter Chain
+
+ Dispatcher Servlet and Filter chain
+
+ DispatcherServlet is initialized first when the application starts.
+ When a request comes in, the Spring filter chain (any defined filters) is invoked before the request is handed over
+ to the DispatcherServlet.
+
+ When DS will be initialized since DS is extended by AbstractAnnotationConfigDispatcherServletInitializer which has provided
+ the implementation of createRootApplicationContext, so on it's starting root application context is created.
+ We have to provide the implementation of getServletConfigClasses method  so that spring can get the configuration file
+ and using which spring can add the components that are eligible for component scan.
+
+ How DS is getting create automatically?
+ AbstractAnnotationConfigDispatcherServletInitializer parent classes have implemented the interface WebApplicationInitializer
+ and AbstractContextLoaderInitializer implements that method. So on app startup, servlet context is configured programmatically.
+ and dispatcher servlet is also registered.
+ Implementation of WebApplicationInitializer gets automatically detected by SpringServletContainerInitializer and that
+ in turn is automatically bootstrapped by servlet container(tomcat).
+
+ Use of SecurityInitializer class??
+ We have an initializer class that is extending AbstractSecurityWebApplicationInitializer and this class is implementing
+ WebApplicationInitializer, so it will be automatically picked up by the servlet container.
+ Role of AbstractSecurityWebApplicationInitializer is to initialize a DelegatingFilterProxy.
+ DelegatingFilterProxy will in turn look for SpringSecurityFilterChain Bean, and we have to ensure that bean is there in
+ the context.
+ We can either create the bean manually or there is an annotation EnableWebSecurity for it that can be used.
+
+Security filter chain: [
+  DisableEncodeUrlFilter
+  WebAsyncManagerIntegrationFilter
+  SecurityContextHolderFilter
+  HeaderWriterFilter
+  CsrfFilter
+  LogoutFilter
+  UsernamePasswordAuthenticationFilter
+  DefaultLoginPageGeneratingFilter ---> Generates Default login page for Spring security apps.
+  DefaultLogoutPageGeneratingFilter ---> Generates Default Logout page for Spring security apps.
+  BasicAuthenticationFilter
+  RequestCacheAwareFilter
+  SecurityContextHolderAwareRequestFilter
+  AnonymousAuthenticationFilter
+  ExceptionTranslationFilter
+  AuthorizationFilter
+]
