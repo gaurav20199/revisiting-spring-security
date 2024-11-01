@@ -1,4 +1,4 @@
-package com.spring.revisit.security.step1.securityconfig;
+package com.spring.revisit.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
