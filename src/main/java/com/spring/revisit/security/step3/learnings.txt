@@ -117,3 +117,15 @@ Security filter chain: [
   AuthorizationFilter
 ]
 
+Authenticated vs PermitAll() vs DenyAll()
+1) Authenticated- When configured user has to provide correct authentication details else user will be able to access it
+2) PermitAll()- No Authentication is required. Page will be visible to the user.
+3) DenyAll() - For a url configured with DenyAll(), user will see the login page(if configured) even after providing the
+right credentials user will not be able to access the page
+
+Why mvcHandlerMappingIntrospector bean is required
+The mvcHandlerMappingIntrospector plays a central role in the request-handling mechanism of Spring MVC by helping to
+manage and resolve handler mappings.
+When configuring security at a global level (e.g., using HttpSecurity), the introspector can help ensure that the
+defined security settings are applied correctly to the right handler mappings.
+

@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +48,29 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain customSecurityFilterChain() throws Exception {
-        return httpSecurity.authorizeHttpRequests().anyRequest().authenticated()
-                .and().formLogin().and().httpBasic().and().build();
+//        use this when you want to authenticate every request
+//        return httpSecurity.authorizeHttpRequests().anyRequest().authenticated()
+//                .and().formLogin().and().httpBasic().and().build();
+
+        // For about we don't require any authentication
+        httpSecurity.authorizeHttpRequests().requestMatchers("/about").denyAll();
+        httpSecurity.authorizeHttpRequests().requestMatchers("/home").permitAll();
+        httpSecurity.authorizeHttpRequests().requestMatchers("/").authenticated();
+
+          // If we are configuring using AntPathRequestMatcher then we don't require mvcHandlerMappingIntrospector bean
+//        httpSecurity.authorizeHttpRequests().requestMatchers(AntPathRequestMatcher.antMatcher("/about")).denyAll();
+//        httpSecurity.authorizeHttpRequests().requestMatchers(AntPathRequestMatcher.antMatcher("/home")).permitAll();
+//        httpSecurity.authorizeHttpRequests().requestMatchers(AntPathRequestMatcher.antMatcher("/")).authenticated();
+
+
+        httpSecurity.formLogin();
+        httpSecurity.httpBasic();
+        return httpSecurity.build();
+    }
+
+    @Bean("mvcHandlerMappingIntrospector")
+    HandlerMappingIntrospector handlerMappingIntrospector() {
+        return new HandlerMappingIntrospector();
     }
 
 /*    @Bean
