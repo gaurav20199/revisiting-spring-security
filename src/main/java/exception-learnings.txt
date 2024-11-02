@@ -11,3 +11,14 @@ for bean class [com.spring.revisit.security.step3.SecurityConfig] conflicts with
 of same name and class [com.spring.revisit.security.config.SecurityConfig]
 Explanation: When two beans have the same name
 
+NoSuchBeanDefinitionException: No bean named 'A Bean named mvcHandlerMappingIntrospector of type org.springframework.web
+.servlet.handler.HandlerMappingIntrospector is required to use MvcRequestMatcher. Please ensure Spring Security & Spring
+MVC are configured in a shared ApplicationContext.' available
+
+Error creating bean with name 'customSecurityFilterChain' defined in class path resource [com/spring/revisit/security/config/SecurityConfig.class]:
+Failed to instantiate [org.springframework.security.web.SecurityFilterChain]: Factory method 'customSecurityFilterChain'
+threw exception with message: Can't configure mvcMatchers after anyRequest
+
+Explanation: Request Matchers is used after anyRequest in security config.
+Eg: httpSecurity.authorizeHttpRequests().anyRequest().authenticated();
+    httpSecurity.authorizeHttpRequests().requestMatchers("/about").permitAll();
