@@ -2,3 +2,5 @@ org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named '
 Explanation: In Spring context springSecurityFilterChain is not present.
 Occurred when: When we created the SecurityInitializer and extended it to AbstractSecurityWebApplicationInitializer
 
+java.lang.IllegalStateException: Duplicate Filter registration for 'springSecurityFilterChain'. Check to ensure the Filter is only configured once.
+Explanation: When Multiple Beans of SpringSecurityFilterChain is configured.
