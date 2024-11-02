@@ -1,6 +1,5 @@
 package com.spring.revisit.security.config;
 
-import org.springframework.cglib.proxy.NoOp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,7 @@ import java.util.List;
 @EnableWebSecurity(debug = true)
 public class SecurityConfig {
 
-    @Bean
+/*    @Bean
     InMemoryUserDetailsManager setUpUser() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("admin"));
@@ -27,11 +25,21 @@ public class SecurityConfig {
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         inMemoryUserDetailsManager.createUser(user);
         return inMemoryUserDetailsManager;
-    }
+    }*/
 
     @Bean
+    InMemoryUserDetailsManager setUpUser() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("admin"));
+        UserDetails user = User.withUsername("gaurav").password("{noop}gaurav").authorities(authorities).build();
+        InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
+        inMemoryUserDetailsManager.createUser(user);
+        return inMemoryUserDetailsManager;
+    }
+
+/*    @Bean
     PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();
-    }
+    }*/
 
 }

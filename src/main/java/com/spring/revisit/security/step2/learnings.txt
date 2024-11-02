@@ -22,6 +22,7 @@ UserDetailsManager in itself extends the UserDetailsService interface.
 There are multiple implementations of it like InMemoryUserDetailManager, JdbcUserDetailManager
 These are part of spring security core and transitively comes from spring web security dependency
 and spring security config dependency.
+InMemoryUserDetailManager stores the user info in a map of type Map<String, MutableUserDetails> users
 
 We can use Spring inbuilt User Manager ways or else we can have our own custom implementation.
 
