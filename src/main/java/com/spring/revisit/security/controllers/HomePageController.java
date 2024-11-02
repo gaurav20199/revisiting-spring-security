@@ -10,4 +10,9 @@ public class HomePageController {
     public String showHomePageContent() {
         return "Welcome to the Home page";
     }
+
+    @GetMapping("/")
+    public String showAuthenticationSuccessMsg() {
+        return "Authentication Successful!!";
+    }
 }
