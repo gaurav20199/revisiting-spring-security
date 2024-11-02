@@ -2,12 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
 	<groupId>com.spring.revisit</groupId>
 	<artifactId>security</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -39,6 +33,7 @@
 		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>
@@ -52,6 +47,7 @@
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
