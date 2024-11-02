@@ -1,4 +1,4 @@
-package com.spring.revisit.security.step1.controllers;
+package com.spring.revisit.security.controllers;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

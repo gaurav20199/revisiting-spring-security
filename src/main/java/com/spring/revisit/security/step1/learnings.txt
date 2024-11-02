@@ -32,6 +32,7 @@ Basic High Level Diagram
  DelegatingFilterProxy will in turn look for SpringSecurityFilterChain Bean, and we have to ensure that bean is there in
  the context.
  We can either create the bean manually or there is an annotation EnableWebSecurity for it that can be used.
+ EnableWebSecurity annotation imports WebSecurityConfigurationClass and it has method to create default SecurityFilterChain
 
 Security filter chain: [
   DisableEncodeUrlFilter

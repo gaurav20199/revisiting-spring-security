@@ -1,0 +1,29 @@
+User Roles:
+Every website user has some roles attach to it to provide specific access to its users. These roles can be:
+Guest/Visitor: If user is not logged in they can still access some pages of the website.
+Admin: Admin user has most of the roles in the website.They can perform create, edit, delete operations.
+Subscriber(paid): A website can have many user that have a subscription with them.
+Free Tier: User which has an account but don't have any subscription or maybe website don't have a subscription model.
+and many other roles.
+and many more
+
+In Spring to represent a user we have:
+UserDetails(Interface), MutableUserDetails(Interface)
+MutableUserDetails in itself extends the UserDetails interface
+There are multiple implementations of it like User, Mutable User.
+The interface contact provides basic user information details like username, password,authorities and other information.
+For authorities, we have a GrantedAuthority Interface and have multiple implementations for that
+
+We can use Spring inbuilt User,MutableUser class or else we can have our own custom implementation.
+
+In Spring if we want to manager user related operations on any user then we have:
+UserDetailsService(Interface), UserDetailsManager(Interface)
+UserDetailsManager in itself extends the UserDetailsService interface.
+There are multiple implementations of it like InMemoryUserDetailManager, JdbcUserDetailManager
+These are part of spring security core and transitively comes from spring web security dependency
+and spring security config dependency.
+
+We can use Spring inbuilt User Manager ways or else we can have our own custom implementation.
+
+Spring also needs a password Encoder Bean. If not provided while logging in this error message will come
+There is no PasswordEncoder mapped for the id "null"
