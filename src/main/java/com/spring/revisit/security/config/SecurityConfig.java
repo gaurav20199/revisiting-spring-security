@@ -3,7 +3,7 @@ package com.spring.revisit.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
@@ -13,9 +13,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +45,9 @@ public class SecurityConfig {
         inMemoryUserDetailsManager.createUser(user);
         return inMemoryUserDetailsManager;
     }
-
+/*
+    Above Spring Security version 6.0.0 authorizeHttpRequest(), formLogin() and HttpBasic()
+    has been deprecated.
     @Bean
     SecurityFilterChain customSecurityFilterChain() throws Exception {
 //        use this when you want to authenticate every request
@@ -65,6 +67,30 @@ public class SecurityConfig {
 
         httpSecurity.formLogin();
         httpSecurity.httpBasic();
+        return httpSecurity.build();
+    }
+
+ */
+
+    @Bean
+    SecurityFilterChain customSecurityFilterChainLatest(HandlerMappingIntrospector introspector) throws Exception {
+        MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
+//        httpSecurity.authorizeHttpRequests(new Customizer<AuthorizeHttpRequestsConfigurer<org.springframework.security.config.annotation.web.builders.HttpSecurity>.AuthorizationManagerRequestMatcherRegistry>() {
+//            @Override
+//            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
+//                authorizationManagerRequestMatcherRegistry.requestMatchers(mvcMatcherBuilder.pattern("/about")).denyAll();
+//                authorizationManagerRequestMatcherRegistry.requestMatchers(mvcMatcherBuilder.pattern("/home")).permitAll();
+//                authorizationManagerRequestMatcherRegistry.anyRequest().authenticated();
+//            }
+//        }).formLogin(Customizer.withDefaults()).httpBasic(Customizer.withDefaults());
+
+        // since customizer is a functional interface we can use lambda directly
+        httpSecurity.authorizeHttpRequests(customizer -> {
+                    customizer.requestMatchers(mvcMatcherBuilder.pattern("/about")).denyAll();
+                    customizer.requestMatchers(mvcMatcherBuilder.pattern("/home")).permitAll();
+                    customizer.anyRequest().authenticated();
+        }).formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();
     }
 
