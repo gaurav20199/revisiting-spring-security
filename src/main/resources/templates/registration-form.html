@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+</head>
+<body>
+<div class="container my-3">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <h2 align="center">User Registration</h2>
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <div class="form-row">
+                    <div class="col-md-12 form-group">
+                        <label>UserName</label>
+                        <input type="text" class="form-control" th:field="*{userName}">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label>Email</label>
+                        <input type="text" class="form-control" th:field="*{email}">
+                    </div>
+
+                    <div class="col-md-12 form-group">
+                        <label>Password</label>
+                        <input type="password" step="any" class="form-control" th:field="*{password}">
+                    </div>
+                </div>
+                <button type="register" class="btn btn-primary btn-block mt-3">Register</button>
+                <div class="text-center mt-3">
+                    <a href="/login">Already have an account? Login here</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</body>
+</html> 
