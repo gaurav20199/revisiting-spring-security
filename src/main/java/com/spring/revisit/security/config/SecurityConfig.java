@@ -6,15 +6,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class SecurityConfig {
     InMemoryUserDetailsManager setUpUser() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("admin"));
-        UserDetails user = User.withUsername("gaurav").password("{noop}gaurav").authorities(authorities).build();
+        UserDetails user = User.withUsername("Admin").password("{noop}Admin").authorities(authorities).build();
         InMemoryUserDetailsManager inMemoryUserDetailsManager = new InMemoryUserDetailsManager();
         inMemoryUserDetailsManager.createUser(user);
         return inMemoryUserDetailsManager;
@@ -88,9 +88,12 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(customizer -> {
                     customizer.requestMatchers(mvcMatcherBuilder.pattern("/about")).denyAll();
                     customizer.requestMatchers(mvcMatcherBuilder.pattern("/home")).permitAll();
+                    customizer.requestMatchers(mvcMatcherBuilder.pattern("/register")).permitAll();
                     customizer.anyRequest().authenticated();
         }).formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
+                //.csrf(customizer -> customizer.disable());
+        // disabling csrf for post mappings as it is enabled by default and post requests are secured by default
         return httpSecurity.build();
     }
 
@@ -99,9 +102,9 @@ public class SecurityConfig {
         return new HandlerMappingIntrospector();
     }
 
-/*    @Bean
+    @Bean
     PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }*/
+        return new BCryptPasswordEncoder();
+    }
 
 }
