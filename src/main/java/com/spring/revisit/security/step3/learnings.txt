@@ -129,3 +129,22 @@ manage and resolve handler mappings.
 When configuring security at a global level (e.g., using HttpSecurity), the introspector can help ensure that the
 defined security settings are applied correctly to the right handler mappings.
 
+Spring provides an input hidden field with csrf token to avoid cross site request forgery Attack.
+
+CSRF(Cross Site Request Forgery) Attack
+Suppose for a restaurant website there is an admin user. Once admin is logged-in, they will be able to access all the
+pages without logging in again within the same client.
+Now a malicious user can potentially build their own form with fields hidden(form may or may not look the same), submit
+action going to the exact same url mapping as in the actual restaurant website form and can share that page by some
+means and once the admin user clicks on it then the data stored in hidden fields will be executed. Since on submission
+the request will go on to the restaurant server and admin user was already logged-in then the server will execute the
+logic but the values will be picked up from the hidden form fields.
+A malicious user might change the price of specific dishes in their custom form and on submission maybe price of that
+dish will get updated in the system and so on.
+Similar use-case can be seen in banking and other cases.
+
+Solution:
+In Spring, by default, Spring Security's CSRF protection applies to state-changing requests, specifically POST, PUT,
+DELETE, and PATCH requests.
+Spring will append a hidden field and that will contain in the csrf token for all the forms that we will have in our app
+
