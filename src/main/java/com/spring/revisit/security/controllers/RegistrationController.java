@@ -4,7 +4,7 @@ import com.spring.revisit.security.dto.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +16,13 @@ import java.util.List;
 @Controller
 public class RegistrationController {
 
-    private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    //private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    private final UserDetailsManager userDetailsManager;
 
     private final PasswordEncoder passwordEncoder;
 
-    RegistrationController(InMemoryUserDetailsManager inMemoryUserDetailsManager,PasswordEncoder passwordEncoder) {
-        this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
+    RegistrationController(UserDetailsManager userDetailsManager,PasswordEncoder passwordEncoder) {
+        this.userDetailsManager = userDetailsManager;
         this.passwordEncoder = passwordEncoder;
     }
     @GetMapping("/register")
@@ -36,7 +37,7 @@ public class RegistrationController {
         authorities.add(new SimpleGrantedAuthority("FREE_TRIAL"));
         String password = passwordEncoder.encode(user.getPassword());
         org.springframework.security.core.userdetails.User securityUser = new org.springframework.security.core.userdetails.User(user.getUserName(), password,authorities);
-        inMemoryUserDetailsManager.createUser(securityUser);
+        userDetailsManager.createUser(securityUser);
         model.addAttribute("message", "Registration successful!");
         return "registration-success";
     }

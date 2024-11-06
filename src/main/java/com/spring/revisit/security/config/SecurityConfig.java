@@ -3,21 +3,17 @@ package com.spring.revisit.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
-import java.util.ArrayList;
-import java.util.List;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity(debug = true)
@@ -35,7 +31,7 @@ public class SecurityConfig {
         inMemoryUserDetailsManager.createUser(user);
         return inMemoryUserDetailsManager;
     }*/
-
+/*
     @Bean
     InMemoryUserDetailsManager setUpUser() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -45,6 +41,24 @@ public class SecurityConfig {
         inMemoryUserDetailsManager.createUser(user);
         return inMemoryUserDetailsManager;
     }
+ */
+
+    @Bean
+    DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setUsername("root");
+        dataSource.setPassword("Iltwat");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/securitydemo");
+        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        return dataSource;
+    }
+
+    @Bean
+    JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    }
+
+
 /*
     Above Spring Security version 6.0.0 authorizeHttpRequest(), formLogin() and HttpBasic()
     has been deprecated.
